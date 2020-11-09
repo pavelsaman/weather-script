@@ -3,7 +3,6 @@ const config = require('../config.json');
 
 const mapUrl = 'http://portal.chmi.cz/files/portal/docs/poboc/OS/OMK/mapy/prohlizec.html?map=T1H';
 const picReq = 'http://portal.chmi.cz/files/portal/docs/poboc/OS/OMK/mapy';
-const picPath = '/home/pavel/javascript/puppeteer/weather/pics/';
 const date = new Date();
 const dd = String(date.getDate()).padStart(2, '0'); // current day as dd
 const allowedHours = [
@@ -79,7 +78,7 @@ const regexStr = '[;]{1}' + dd + '[.]{1}.*' + hour + '$';
 
     // take screenshot
     await page.screenshot({
-        path: picPath + 'temperatures.png',
+        path: config.picDir + 'temperatures.png',
         fullPage: true
     });
     await browser.close();
