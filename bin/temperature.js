@@ -37,9 +37,8 @@ const regexStr = '[;]{1}' + dd + '[.]{1}.*' + hour + '$';
 (async () => {
     // go to the weather site
     const browser = await puppeteer.launch(config.browserOptions);
-    const page = await browser.newPage();
+    const page = await browser.newPage();    
     
-    //await page.tracing.start({ path: './tracing.json' });
     await page.goto(config.mapUrl);
     
     // get option values based on regexStr
@@ -69,8 +68,7 @@ const regexStr = '[;]{1}' + dd + '[.]{1}.*' + hour + '$';
             'document.querySelector("' + elements.loader
                 + '").innerText === "(1 / 1)"'
         )
-    ]);
-    //await page.tracing.stop();
+    ]);    
 
     // take screenshot
     await page.screenshot({
