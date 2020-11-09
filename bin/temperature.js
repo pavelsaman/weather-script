@@ -15,7 +15,9 @@ const allowedHours = [
 const elements = {
     dateSelect: '#seznam',
     dateOption: '#seznam > option',
-    submitDates: '#nahrat'
+    submitDates: '#nahrat',
+    map: '#map_image',
+    loader: '#nahrano'
 };
 
 
@@ -69,10 +71,11 @@ const regexStr = '[;]{1}' + dd + '[.]{1}.*' + hour + '$';
     let resource = options[0].split(';')[0];
     resource = resource.substr(1, resource.length);
     await Promise.all([
-        page.waitForSelector('#map_image'),
+        page.waitForSelector(elements.map),
         page.waitForResponse(picReq + resource),
         page.waitForFunction(
-            'document.querySelector("#nahrano").innerText === "(1 / 1)"'
+            'document.querySelector("' + elements.loader
+                + '").innerText === "(1 / 1)"'
         )
     ]);
 
