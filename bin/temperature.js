@@ -39,8 +39,8 @@ const regexStr = '[;]{1}' + dd + '[.]{1}.*' + hour + '$';
     const browser = await puppeteer.launch(config.browserOptions);
     const page = await browser.newPage();
     
+    //await page.tracing.start({ path: './tracing.json' });
     await page.goto(config.mapUrl);
-    await page.waitForNavigation();       
     
     // get option values based on regexStr
     let options = await page.$$eval(elements.dateOption,
@@ -70,6 +70,7 @@ const regexStr = '[;]{1}' + dd + '[.]{1}.*' + hour + '$';
                 + '").innerText === "(1 / 1)"'
         )
     ]);
+    //await page.tracing.stop();
 
     // take screenshot
     await page.screenshot({
