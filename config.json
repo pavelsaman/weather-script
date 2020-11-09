@@ -1,0 +1,9 @@
+{
+    "browserOptions": {
+        "headless": true,
+        "args": [
+            "--start-maximized"               
+        ],
+        "defaultViewport": null
+    }
+}
