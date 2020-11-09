@@ -38,8 +38,9 @@ const regexStr = '[;]{1}' + dd + '[.]{1}.*' + hour + '$';
     // go to the weather site
     const browser = await puppeteer.launch(config.browserOptions);
     const page = await browser.newPage();
-    page.goto(config.mapUrl);
-    await page.waitForNavigation();   
+    
+    await page.goto(config.mapUrl);
+    await page.waitForNavigation();       
     
     // get option values based on regexStr
     let options = await page.$$eval(elements.dateOption,
