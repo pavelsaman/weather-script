@@ -1,17 +1,9 @@
 const puppeteer = require('puppeteer');
 const config = require('../config.json');
 
-const mapUrl = 'http://portal.chmi.cz/files/portal/docs/poboc/OS/OMK/mapy/prohlizec.html?map=T1H';
-const picReq = 'http://portal.chmi.cz/files/portal/docs/poboc/OS/OMK/mapy';
+
 const date = new Date();
 const dd = String(date.getDate()).padStart(2, '0'); // current day as dd
-const allowedHours = [
-    "00:00", "01:00", "02:00", "03:00", "04:00",
-    "05:00", "06:00", "07:00", "08:00", "09:00",
-    "10:00", "11:00", "12:00", "13:00", "14:00",
-    "15:00", "16:00", "17:00", "18:00", "19:00",
-    "20:00", "20:00", "21:00", "22:00", "23:00"
-];
 const elements = {
     dateSelect: '#seznam',
     dateOption: '#seznam > option',
@@ -20,13 +12,12 @@ const elements = {
     loader: '#nahrano'
 };
 
-
 // ============================================================================
 
 let hour = process.argv[2];
 
 // only hours, not minutes
-if (hour !== "current" && !allowedHours.includes(hour)) {
+if (hour !== "current" && !config.allowedHours.includes(hour)) {
     console.error("Not allowed time!");
     process.exit(1);
 }
@@ -47,7 +38,7 @@ const regexStr = '[;]{1}' + dd + '[.]{1}.*' + hour + '$';
     // go to the weather site
     const browser = await puppeteer.launch(config.browserOptions);
     const page = await browser.newPage();
-    page.goto(mapUrl);
+    page.goto(config.mapUrl);
     await page.waitForNavigation();   
     
     // get option values based on regexStr
@@ -72,7 +63,7 @@ const regexStr = '[;]{1}' + dd + '[.]{1}.*' + hour + '$';
     resource = resource.substr(1, resource.length);
     await Promise.all([
         page.waitForSelector(elements.map),
-        page.waitForResponse(picReq + resource),
+        page.waitForResponse(config.picReq + resource),
         page.waitForFunction(
             'document.querySelector("' + elements.loader
                 + '").innerText === "(1 / 1)"'
